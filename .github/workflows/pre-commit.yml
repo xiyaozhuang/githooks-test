@@ -1,8 +1,6 @@
 name: Pre-commit
 on:
   pull_request:
-  push:
-    branches: [main]
 
 jobs:
   pre-commit:
@@ -12,6 +10,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+
+      - name: Install dependencies
+        run: python3 -m pip install -r requirements.txt
 
       - name: Pre-commit
       - uses: pre-commit/action@v3.0.0
