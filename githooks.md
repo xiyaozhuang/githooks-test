@@ -1,0 +1,53 @@
+# Githooks
+
+## Usage
+
+Install `pre-commit` package:
+
+```
+pip install pre-commit
+```
+
+Create configuration file:
+
+`.pre-commit-config.yaml`
+
+Set up configuration:
+
+See https://pre-commit.com/ and https://pre-commit.com/hooks.html to configure and find compatible plugins.
+
+Example:
+
+```
+repos:
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+    -   id: trailing-whitespace
+    -   id: end-of-file-fixer
+    -   id: check-yaml
+    -   id: check-added-large-files
+
+-   repo: https://github.com/kynan/nbstripout
+    rev: 0.6.1
+    hooks:
+    -   id: nbstripout
+```
+
+Update githooks:
+
+```
+pre-commit autoupdate
+```
+
+Install githook scripts:
+
+```
+pre-commit install
+```
+
+Run against all files:
+
+```
+pre-commit run --all-files
+```
