@@ -1,22 +1,37 @@
-# Githooks
+# Git Hooks
 
-## Usage
+## What are Git hooks?
 
-Install `pre-commit` package:
+Git hooks are scripts that run automatically every time a particular event occurs in a Git repository. They let you customize Git’s behavior and trigger actions at key points in development.
+
+Since scripts are infinitely customizable, you can use Git hooks to automate or optimize virtually any aspect of your development workflow. Some example hook scripts include:
+
+- pre-commit: Check commit messages for spelling errors.
+- pre-receive: Enforce project coding standards.
+- post-receive: Push code to production.
+- post-release: Publish a packaged repository to PyPI.
+
+## Why use Git hooks?
+
+Git hooks can greatly increase your productivity as a developer. They can be written in any language and their biggest advantage is workflow automation. For example, you can use a Git hook to check that commit messages follow a standard and prevent the commit from executing. However, if you still want to commit, you can simply skip or override it.
+
+When you add a hook to your local Git repository, it will not impose any policy outside of it as the hooks are stored in the `.git/hooks` directory which is ignored by Git by default.
+
+The most important use of Git hooks is secret detection. Git hooks allow developers to easily and automatically detect any vulnerable secrets in their source code.
+
+## How to install pre-commit
+
+This guide will make use of the `pre-commit` package to quickly and easily use out of the box pre-commit plugins.
+
+To install the `pre-commit` package, first create and activate a virtual environment for your project, then open a terminal and enter:
 
 ```
 pip install pre-commit
 ```
 
-Create configuration file:
+## How to configure pre-commit
 
-`.pre-commit-config.yaml`
-
-Set up configuration:
-
-See https://pre-commit.com/ and https://pre-commit.com/hooks.html to configure and find compatible plugins.
-
-Example:
+To set up `pre-commit`, create a file named `.pre-commit-config.yaml` and add the following:
 
 ```
 repos:
@@ -34,27 +49,43 @@ repos:
     -   id: nbstripout
 ```
 
-Update githooks:
+This basic configuration will:
+
+- Trim trailing whitespace.
+- Make sure files end in a newline and only a newline.
+- Attempt to load all yaml files to verify syntax.
+- Prevent large files from being added.
+- Strip output from Jupyter and IPython notebooks.
+
+See https://pre-commit.com/ and https://pre-commit.com/hooks.html to configure and find compatible plugins.
+
+## How to use pre-commit
+
+To update any Git hooks specified in the configuration file, open a terminal and enter:
 
 ```
 pre-commit autoupdate
 ```
 
-Install githook scripts:
+To install the Git hooks, open a terminal and enter:
 
 ```
 pre-commit install
 ```
 
-Run against all files:
+Now you're all set up to go! When you try to commit a change, the Git hooks will automatically run against any staged files and prevent the commit from completing if any fail.
+
+You can also run your pre-commit Git hooks manually against all files by opening a terminal and entering:
 
 ```
 pre-commit run --all-files
 ```
 
-## Github action
+## What if a commit is forced through a Git hook?
 
-Set up workflow file in `.github/workflows` by adding:
+There are numerous ways to enforce project Git hooks. This guide will provide an example using GitHub Actions whenever a pull request has changes e.g. when a new pull request is created or when a commit is pushed to a pul request. This should trigger the workflow to run `pre-commit`.
+
+Create a new GitHub Actions workflow file `.github/workflows/<workflow-name.yaml>` and add:
 
 ```
 name: Pre-commit
@@ -74,9 +105,10 @@ jobs:
         uses: actions/setup-python@v4
 
       - name: Install dependencies
-        run: python3 -m pip install -r requirements.txt
+        run: pip install pre-commit
 
       - name: Pre-commit
-        uses: pre-commit/action@v3.0.0
-
+        run: pre-commit run --all-files
 ```
+
+*NHS Digital is not affiliated with any of these websites or companies.*
