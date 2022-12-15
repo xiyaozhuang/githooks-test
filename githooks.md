@@ -21,7 +21,7 @@ The most important use of Git hooks is secret detection. Git hooks allow develop
 
 ## How to install pre-commit
 
-This guide will make use of the `pre-commit` package to quickly and easily use out of the box pre-commit plugins.
+This guide will make use of the `pre-commit` package to quickly and easily use "out-of-the-box" pre-commit plugins.
 
 To install the `pre-commit` package, first create and activate a virtual environment for your project, then open a terminal and enter:
 
