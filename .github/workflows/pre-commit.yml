@@ -15,7 +15,7 @@ jobs:
         uses: actions/setup-python@v4
 
       - name: Install dependencies
-        run: pip install pre-commit, detect-secrets
+        run: pip install pre-commit detect-secrets
 
       - name: Pre-commit command
         run: pre-commit run --all-files
